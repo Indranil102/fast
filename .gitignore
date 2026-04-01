@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*~
+*.swp
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE/editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Mac
+.DS_Store
+
+# Uvicorn/fastapi logs
+*.log
+
+# Environment variables
+.env
+.env.*
