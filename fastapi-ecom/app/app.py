@@ -6,9 +6,6 @@ app= FastAPI()
 def home():
     return {"message":"hii"}
 
-# @app.get("/products")
-# def get_products():
-#     return get_all_products()
 
 @app.get("/products")
 #hwere i can sort the thing with name and price 
