@@ -29,6 +29,12 @@ def get_products(
         gt=0,
         le=100,
         description="Limit the number of products returned"
+    ),
+    offset: int =Query(
+        default=0, 
+        gt=0,
+        
+        description="Pagination offset"
     )
                  ):
     products= get_all_products()
@@ -41,8 +47,8 @@ def get_products(
             
     if sort_price:
         reverse= order.lower() == "desc"
-        products=sorted(products,key=lambda x: x.get("price",0), reverse=reverse)
+        products=sorted(produc ts,key=lambda x: x.get("price",0), reverse=reverse)
     
     total = len(products)
-    products=products[0:limit]
+    products=products[offset:offset+limit]
     return {"total": total,"limit":limit, "products": products}
