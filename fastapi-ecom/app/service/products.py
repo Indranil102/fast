@@ -14,3 +14,11 @@ def load_products()-> List[Dict]:
     
 def get_all_products()->List[Dict]:
     return load_products()
+
+def get_product_by_id(product_id: str) -> Dict:
+    
+    products = load_products()
+    for product in products:
+        if product.get("id") == product_id:
+            return product
+    return None
