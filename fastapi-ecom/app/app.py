@@ -23,6 +23,12 @@ def get_products(
     order: str=Query(
         default="asc",
         description="Sort order: 'asc' for ascending, 'desc' for descending",
+    ),
+    limit: int =Query(
+        default=5, 
+        gt=0,
+        le=100,
+        description="Limit the number of products returned"
     )
                  ):
     products= get_all_products()
@@ -38,4 +44,5 @@ def get_products(
         products=sorted(products,key=lambda x: x.get("price",0), reverse=reverse)
     
     total = len(products)
-    return {"total": total, "products": products}
+    products=products[0:limit]
+    return {"total": total,"limit":limit, "products": products}
