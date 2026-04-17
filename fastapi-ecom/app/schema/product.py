@@ -95,4 +95,9 @@ class Product(BaseModel):
             raise ValueError("Product cannot have a discount if it has no ratings")
         
         return model
+    
+    @computed_field  #it is used to compute the value of the field based on other fields
+    @property
+    def discounted_price(self)->float:
+        return round(self.price * (1 - self.discount_percentage / 100), 2)
         

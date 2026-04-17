@@ -66,4 +66,4 @@ def get_single_product(products_id:str= Path(..., min_length=36, max_length=36, 
 
 @app.post("/products",status_code=201)
 def create_product(product:Product):
-    return product
+    return product.model_dump(mode="json")
