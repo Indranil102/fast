@@ -86,3 +86,13 @@ class Product(BaseModel):
         
         return value
         
+    @model_validator(mode="after") #it works for multiple field validation
+    @classmethod
+    def validate_business_rules(cls, model:"Product"):
+        if model.stock==0 and model.is_active is True:
+            raise ValueError("Product cannot be active if stock is zero")
+        if model.discount_percentage>0 and model.rating==0:
+            raise ValueError("Product cannot have a discount if it has no ratings")
+        
+        return model
+        
