@@ -1,7 +1,35 @@
-from pydantic import BaseModel,Field,AnyUrl,field_validator,model_validator,computed_field
+from pydantic import BaseModel,Field,AnyUrl,field_validator,model_validator,computed_field, EmailStr
 from typing import Annotated,Literal,Optional,List
 from uuid import UUID
 from datetime import datetime
+
+
+class Seller(BaseModel):
+    id:UUID
+    name:Annotated[
+        str,
+        Field(min_length=2, 
+             max_length=60,
+             title="Seller Name",
+             description="Name of the seller")
+        ]
+    email:EmailStr
+    website: AnyUrl
+
+    @field_validator("email",mode="after") #it works only single field validation
+    @classmethod
+    def validate_email(cls, value:EmailStr):
+        allwowed_domains=[
+            "example.com",
+            "test.com",
+            "ecom.com"
+        ]
+        domain= str(value).split("@")[-1].lower()
+        if domain not in allwowed_domains:
+            raise ValueError(f"Email domain must be one of the following: {', '.join(allwowed_domains)}") 
+        return value
+
+
 class Product(BaseModel):
     id:UUID
     sku:Annotated[
@@ -71,6 +99,7 @@ class Product(BaseModel):
     
     #dimension
     #seller
+    seller:Seller
     created_at:datetime
     
     #any user cannot type the correct sku formate so we can use some validator to check the format of the sku and make sure it is correct
