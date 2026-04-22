@@ -26,3 +26,13 @@ def get_product_by_id(product_id: str) -> Dict:
 def save_product(products: List[Dict])->None:
     with open(DATA_FILE,"w",encoding="utf-8") as file:
         json.dump(products,file,indent=2, ensure_ascii=False)
+        
+def add_product(product:Dict)->Dict:
+    products= get_all_products()
+    
+    if any(p["sku"]==product["sku"] for p in products):
+        raise ValueError("SKU already exists")
+    
+    products.append(product)
+    save_product(products)
+    return product

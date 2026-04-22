@@ -33,7 +33,7 @@ class Seller(BaseModel):
 class Product(BaseModel):
     id:UUID
     sku:Annotated[
-        str, 
+        str,
         Field(min_length=1,
               max_length=50,
               description="Stock Keeping Unit")] # string with extra constraints

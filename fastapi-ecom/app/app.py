@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException, Query, Path
-from app.service.products import get_all_products, get_product_by_id
+from app.service.products import get_all_products, get_product_by_id, add_product
 from app.schema.product import Product
+from uuid import uuid4
+from datetime import datetime
 app= FastAPI()
 
 @app.get("/")
@@ -66,4 +68,13 @@ def get_single_product(products_id:str= Path(..., min_length=36, max_length=36, 
 
 @app.post("/products",status_code=201)
 def create_product(product:Product):
+    product_dict=product.model_dump(mode="json")
+    
+    product_dict["id"]= str(uuid4())
+    product_dict["created_at"]=datetime.utcnow().isoformat() + "Z"
+    
+    try:
+        add_product(product_dict)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     return product.model_dump(mode="json")
