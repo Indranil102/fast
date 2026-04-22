@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List,Dict 
 
-DATA_FILE= Path(__file__).parent.parent / "data" / "products.json"
+DATA_FILE= Path(__file__).parent.parent / "data" / "dummy.json"
 
 
 # here we load the product form the json file and return it as a list of dictionaries
@@ -22,3 +22,7 @@ def get_product_by_id(product_id: str) -> Dict:
         if product.get("id") == product_id:
             return product
     return None
+
+def save_product(products: List[Dict])->None:
+    with open(DATA_FILE,"w",encoding="utf-8") as file:
+        json.dump(products,file,indent=2, ensure_ascii=False)
